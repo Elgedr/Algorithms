@@ -12,19 +12,24 @@ public class AL01B {
      * @return The time estimate or exact time in YEARS.
      */
     public String timeToComputeRecursiveFibonacci(int n) {
-        if (n < 30) {
-            long startTime = System.nanoTime();
-            recursiveF(30);
-            long finalTime = System.nanoTime() - startTime;
-            long result = TimeUnit.DAYS.convert(finalTime, TimeUnit.NANOSECONDS) / 365;
-            String res = String.valueOf(result);
-            return res;
-        }
-        long startTime = System.nanoTime();
-        recursiveF(30);
-        long endTime = System.nanoTime() - startTime;
-        String res = String.valueOf(endTime / 30 * n);
-        return res;
+        double startTime = System.currentTimeMillis();
+        recursiveF(n);
+        double end = System.currentTimeMillis() - startTime;
+        return String.valueOf(end/86400/365250);
+
+//        if (n < 30) {
+//            long startTime = System.nanoTime();
+//            recursiveF(30);
+//            long end = System.nanoTime() - startTime;
+//            long result = TimeUnit.DAYS.convert(end, TimeUnit.NANOSECONDS) / 365;
+//            String res = String.valueOf(result);
+//            return res;
+//        }
+//        long startTime = System.nanoTime();
+//        recursiveF(30);
+//        long endTime = System.nanoTime() - startTime;
+//        String res = String.valueOf(endTime / 30 * n);
+//        return res;
     }
 
     /**
