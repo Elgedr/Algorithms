@@ -7,7 +7,7 @@ public class AL01B {
     /**
      * Estimate or find the exact time required to compute the n-th Fibonacci number.
      *
-     * @param n The n-th number to compute.
+     * @param n The n-th numbr to compute.
      * @return The time estimate or exact time in YEARS.
      */
     public String timeToComputeRecursiveFibonacci(int n) {
