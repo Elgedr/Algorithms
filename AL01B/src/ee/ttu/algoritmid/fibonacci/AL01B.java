@@ -12,7 +12,7 @@ public class AL01B {
      * @return The time estimate or exact time in YEARS.
      */
     public String timeToComputeRecursiveFibonacci(int n) {
-        if (n < 30) {
+        if (n < 40) {
             double startTime = System.currentTimeMillis();
             recursiveF(30);
             double end = System.currentTimeMillis() - startTime;
