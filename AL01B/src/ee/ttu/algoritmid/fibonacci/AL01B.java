@@ -18,7 +18,11 @@ public class AL01B {
             double end = System.currentTimeMillis() - startTime;
             return String.valueOf(end / 86400 / 365250);
         }
-        return "0";
+        double startTime = System.currentTimeMillis();
+        recursiveF(30);
+        double end = System.currentTimeMillis() - startTime;
+        double finall = end / 30 * n;
+        return String.valueOf(finall / 86400 / 365250);
 
 //        if (n < 30) {
 //            long startTime = System.nanoTime();
