@@ -17,7 +17,7 @@ public class AL01A {
         BigInteger secLast = BigInteger.valueOf(0); // n-2
         BigInteger last = BigInteger.valueOf(1); // n-1
         BigInteger current = BigInteger.valueOf(0);
-        for (int i = 2; i <= n; i++) {
+        for (int i = 0; i <= n -2; i++) {
             current = secLast.add(last);
             secLast = last;
             last = current;
