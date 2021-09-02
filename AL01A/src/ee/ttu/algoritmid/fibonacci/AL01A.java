@@ -24,10 +24,4 @@ public class AL01A {
         }
         return String.valueOf(last);
     }
-
-    public static void main(String[] args) {
-        AL01A al01A = new AL01A();
-        System.out.println(al01A.iterativeF(7));
-
-    }
 }
