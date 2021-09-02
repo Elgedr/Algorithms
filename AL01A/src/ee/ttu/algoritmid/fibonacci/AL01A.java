@@ -11,9 +11,9 @@ public class AL01A {
      * @return The n-th number in Fibonacci series.
      */
     public String iterativeF(int n) {
-        if (n < 2) {
-            return String.valueOf(n);
-        }
+//        if (n < 2) {
+//            return String.valueOf(n);
+//        }
         BigInteger secLast = BigInteger.valueOf(0); // n-2
         BigInteger last = BigInteger.valueOf(1); // n-1
         BigInteger current = BigInteger.valueOf(0);
