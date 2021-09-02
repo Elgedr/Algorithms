@@ -19,7 +19,7 @@ public class AL01B {
             return String.valueOf(end / 86400 / 365250);
         }
         double startTime = System.currentTimeMillis();
-        recursiveF(30);
+        recursiveF(40);
         double end = System.currentTimeMillis() - startTime;
         double finall = end / 40 * n;
         return String.valueOf(finall / 86400 / 365250);
