@@ -12,7 +12,6 @@ public class AL01B {
      * @return The time estimate or exact time in YEARS.
      */
     public String timeToComputeRecursiveFibonacci(int n) {
-        long days = TimeUnit.DAYS
         if (n < 30) {
             long startTime = System.nanoTime();
             recursiveF(30);
