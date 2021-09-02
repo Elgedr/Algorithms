@@ -23,8 +23,9 @@ public class AL01B {
      * @return The n-th Fibonacci number as a string.
      */
     public BigInteger recursiveF(int n) {
-        if (n <= 1)
+        if (n <= 1) {
             return BigInteger.valueOf(n);
+        }
         return recursiveF(n - 1).add(recursiveF(n - 2));
     }
 }
