@@ -21,7 +21,7 @@ public class AL01B {
         double startTime = System.currentTimeMillis();
         recursiveF(30);
         double end = System.currentTimeMillis() - startTime;
-        double finall = end / 30 * n;
+        double finall = end / 40 * n;
         return String.valueOf(finall / 86400 / 365250);
 
 //        if (n < 30) {
