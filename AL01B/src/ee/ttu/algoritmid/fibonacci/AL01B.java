@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 public class AL01B {
 
     /**
-     * Estimate or find the exact time required to compute the n-th Fibonacci number.
+     * Estimate or find the exact time reqired to compute the n-th Fibonacci number.
      *
      * @param n The n-th numbr to compute.
      * @return The time estimate or exact time in YEARS.
