@@ -11,8 +11,11 @@ public class AL01B {
      * @return The time estimate or exact time in YEARS.
      */
     public String timeToComputeRecursiveFibonacci(int n) {
-        // TODO
-        return "";
+        long startTime = System.nanoTime();
+        recursiveF(30);
+        long finalTime = System.nanoTime() - startTime;
+        String res = String.valueOf(finalTime);
+        return res;
     }
 
     /**
