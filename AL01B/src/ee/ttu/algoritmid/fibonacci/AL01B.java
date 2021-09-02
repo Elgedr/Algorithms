@@ -12,7 +12,7 @@ public class AL01B {
      */
     public String timeToComputeRecursiveFibonacci(int n) {
         long startTime = System.nanoTime();
-        recursiveF(n);
+        recursiveF(30);
         long finalTime = System.nanoTime() - startTime;
         String res = String.valueOf(finalTime);
         return res;
