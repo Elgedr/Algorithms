@@ -18,7 +18,7 @@ public class AL01B {
         long deltaTime = lastTime - firstTime;
         double k = (deltaTime / (Math.pow(1.6, 30)));
         double answer = k * (Math.pow(1.6, n));
-        return String.valueOf(answer / (315576000 * 100));
+        return String.valueOf(answer / (1000L * 30758400));
 
 //        if (n < 40) {
 //            double startTime = System.currentTimeMillis();
