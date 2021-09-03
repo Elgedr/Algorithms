@@ -13,10 +13,10 @@ public class AL01B {
      */
     public String timeToComputeRecursiveFibonacci(int n) {
         long firstTime = System.currentTimeMillis();
-        recursiveF(30);
+        recursiveF(40);
         long lastTime = System.currentTimeMillis();
         long deltaTime = lastTime - firstTime;
-        long k = (long) (deltaTime / Math.pow(1.6, 30));
+        long k = (long) (deltaTime / Math.pow(1.6, 40));
         long answer = (long) (k * Math.pow(1.6, k));
         return String.valueOf(answer / 31556952);
 
