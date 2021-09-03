@@ -16,8 +16,8 @@ public class AL01B {
         recursiveF(30);
         long lastTime = System.currentTimeMillis();
         long deltaTime = lastTime - firstTime;
-        double k = (deltaTime / (Math.pow(1.6, 30)));
-        double answer = k * (Math.pow(1.6, n)) / (1000L * 24 * 60 * 356 * 60);
+        long k = (long) (deltaTime / (Math.pow(1.6, 30)));
+        long answer = (long) (k * (Math.pow(1.6, n)) / (1000L * 24 * 60 * 356 * 60));
         return String.valueOf(answer);
 
 //        if (n < 40) {
