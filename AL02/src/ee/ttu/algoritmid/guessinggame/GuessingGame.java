@@ -28,7 +28,7 @@ public class GuessingGame {
         System.out.println(answer);
         while (!answer.equals("correct!")) {
             if (answer.equals("lighter")) {
-                fruits = fruits.subList(0, middle);
+                fruits = fruits.subList(0, middle + 1);
             } else {
                 fruits = fruits.subList(middle, fruits.size());
             }
@@ -52,7 +52,7 @@ public class GuessingGame {
                 new Fruit("Õun", 110)
 
         };
-        Oracle oracle = new Oracle(fruits[3]); // mango
+        Oracle oracle = new Oracle(fruits[0]); // mango
         GuessingGame guessingGame = new GuessingGame(oracle);
         guessingGame.play(fruits);
     }
