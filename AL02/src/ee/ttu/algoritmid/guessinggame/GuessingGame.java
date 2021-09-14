@@ -23,16 +23,16 @@ public class GuessingGame {
         List<Fruit> fruits = List.of(fruitArray).stream().sorted(Comparator.comparing(Fruit::getWeight)).collect(Collectors.toList());
 //        Fruit[] fruits = fruitArray.stream.sorted(Comparator.comparing(Fruit::getWeight));
         System.out.println(Arrays.toString(new List[]{fruits}));
-        int middle = fruits.size() / 2;
+        int middle = (fruits.size() - 1) / 2;
         String answer = oracle.isIt((Fruit) fruits.get(middle));
         System.out.println(answer);
         while (!answer.equals("correct!")) {
             if (answer.equals("lighter")) {
-                fruits = fruits.subList(0, middle + 1);
+                fruits = fruits.subList(0, middle);
             } else {
-                fruits = fruits.subList(middle, fruits.size());
+                fruits = fruits.subList(middle + 1, fruits.size());
             }
-            middle = fruits.size() / 2;
+            middle = (fruits.size()-1) / 2;
             answer = oracle.isIt(fruits.get(middle));
         }
         String res = String.valueOf(fruits.get(middle));
