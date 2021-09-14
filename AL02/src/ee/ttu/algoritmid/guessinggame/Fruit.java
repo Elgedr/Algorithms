@@ -17,4 +17,9 @@ public class Fruit {
     public int getWeight() {
         return this.weight;
     }
+
+    @Override
+    public String toString() {
+        return  name + weight;
+    }
 }
