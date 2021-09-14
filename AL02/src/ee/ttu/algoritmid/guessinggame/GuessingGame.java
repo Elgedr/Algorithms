@@ -24,7 +24,7 @@ public class GuessingGame {
             if (answer.equals("lighter")) {
                 fruits = fruits.subList(0, middle);
             } else {
-                fruits = fruits.subList(middle, fruits.size());
+                fruits = fruits.subList(middle + 1, fruits.size());
             }
             middle = (fruits.size() - 1) / 2;
             answer = oracle.isIt(fruits.get(middle));
