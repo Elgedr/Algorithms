@@ -1,11 +1,8 @@
 package ee.ttu.algoritmid.guessinggame;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.util.Arrays.stream;
 
 public class GuessingGame {
 
@@ -29,7 +26,7 @@ public class GuessingGame {
             } else {
                 fruits = fruits.subList(middle, fruits.size());
             }
-            middle = (fruits.size()-1) / 2;
+            middle = (fruits.size() - 1) / 2;
             answer = oracle.isIt(fruits.get(middle));
         }
         String res = String.valueOf(fruits.get(middle));

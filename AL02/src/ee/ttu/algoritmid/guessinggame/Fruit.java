@@ -20,6 +20,6 @@ public class Fruit {
 
     @Override
     public String toString() {
-        return  name;
+        return name;
     }
 }
