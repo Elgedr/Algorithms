@@ -8,6 +8,7 @@ public class Popularity {
     public Integer maxNum = 0;
 
     public Popularity(int maxCoordinates) {
+        coordinates.put("", 0);
     }
 
     /**
