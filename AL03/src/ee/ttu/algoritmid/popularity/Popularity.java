@@ -34,7 +34,11 @@ public class Popularity {
      */
     int pointPopularity(Integer x, Integer y) {
         String coordStr = x.toString() + ";" + y.toString();
-        return coordinates.get(coordStr);
+        if (coordinates.containsKey(coordStr)) {
+            return coordinates.get(coordStr);
+        }
+        return 0;
+
     }
 
 
