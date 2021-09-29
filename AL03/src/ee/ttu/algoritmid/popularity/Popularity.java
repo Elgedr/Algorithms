@@ -8,7 +8,6 @@ public class Popularity {
     public Integer maxNum = 0;
 
     public Popularity(int maxCoordinates) {
-        coordinates.put("", 0);
     }
 
     /**
@@ -50,16 +49,6 @@ public class Popularity {
     }
 
     public static void main(String[] args) {
-        var p = new Popularity(100000);
-        p.addPoint(4, 4);
-        p.addPoint(4, 4);
-        p.addPoint(4, 4);
-        p.addPoint(4, 4);
-        p.addPoint(47, 7);
-        p.addPoint(47, 7);
-        p.addPoint(47, 7);
-
-
     }
 
 }
