@@ -1,9 +1,10 @@
 package ee.ttu.algoritmid.popularity;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Popularity {
-    public Map<String, Integer> coordinates;
+    public Map<String, Integer> coordinates = new HashMap<>();
 
     public Popularity(int maxCoordinates) {
     }
@@ -13,9 +14,13 @@ public class Popularity {
      */
     void addPoint(Integer x, Integer y) {
         String coordStr = x.toString() + ";" + y.toString();
-        if (coordinates.containsKey(coordStr)) {
+        Integer popul = coordinates.get(coordStr);
+        if (popul != null) {
             coordinates.put(coordStr, coordinates.get(coordStr) + 1);
-        } else coordinates.put(coordStr, 1);
+
+        } else {
+            coordinates.put(coordStr, 1);
+        }
     }
 
     /**
@@ -39,6 +44,19 @@ public class Popularity {
             }
         }
         return popularity;
+    }
+
+    public static void main(String[] args) {
+        var p = new Popularity(100000);
+        p.addPoint(4, 4);
+        p.addPoint(4, 4);
+        p.addPoint(4, 4);
+        p.addPoint(4, 4);
+        p.addPoint(47, 7);
+        p.addPoint(47, 7);
+        p.addPoint(47, 7);
+
+
     }
 
 }
