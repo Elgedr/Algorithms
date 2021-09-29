@@ -1,6 +1,9 @@
 package ee.ttu.algoritmid.popularity;
 
+import java.util.Map;
+
 public class Popularity {
+    public Map<String, Integer> coordinates;
 
     public Popularity(int maxCoordinates) {
     }
@@ -9,7 +12,10 @@ public class Popularity {
      * @param x, y - coordinates
      */
     void addPoint(Integer x, Integer y) {
-        // todo
+        String coordStr = x.toString() + ";" + y.toString();
+        if (coordinates.containsKey(coordStr)) {
+            coordinates.put(coordStr, coordinates.get(coordStr) + 1);
+        } else coordinates.put(coordStr, 1);
     }
 
     /**
@@ -17,7 +23,8 @@ public class Popularity {
      * @return the number of occurrennces of the point
      */
     int pointPopularity(Integer x, Integer y) {
-        return 0;
+        String coordStr = x.toString() + ";" + y.toString();
+        return coordinates.get(coordStr);
     }
 
 
@@ -25,7 +32,13 @@ public class Popularity {
      * @return the number of occurrennces of the most popular point
      */
     int maxPopularity() {
-        return 0;
+        Integer popularity = 0;
+        for (Integer val : coordinates.values()) {
+            if (val > popularity) {
+                popularity = val;
+            }
+        }
+        return popularity;
     }
 
 }
