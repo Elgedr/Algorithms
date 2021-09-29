@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class Popularity {
     public Map<String, Integer> coordinates = new HashMap<>();
+    public Integer maxNum = 0;
 
     public Popularity(int maxCoordinates) {
     }
@@ -20,6 +21,9 @@ public class Popularity {
 
         } else {
             coordinates.put(coordStr, 1);
+        }
+        if (coordinates.get(coordStr) > maxNum) {
+            maxNum = coordinates.get(coordStr);
         }
     }
 
@@ -37,13 +41,7 @@ public class Popularity {
      * @return the number of occurrennces of the most popular point
      */
     int maxPopularity() {
-        Integer popularity = 0;
-        for (Integer val : coordinates.values()) {
-            if (val > popularity) {
-                popularity = val;
-            }
-        }
-        return popularity;
+        return maxNum;
     }
 
     public static void main(String[] args) {
