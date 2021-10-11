@@ -5,7 +5,6 @@ public class SubtreeDifference {
     /**
      * Calculate difference between sum of all left children and sum of all right children for every node
      *
-     * @param rootNode root node of the tree. Use it to traverse the tree.
      * @return root node of the tree where for every node is computed difference of sums of it's left and right children
      */
     public long calculateDifferences(Node node) {
@@ -13,7 +12,8 @@ public class SubtreeDifference {
             return 0;
         }
         if (node.getLeft() != null && node.getRight() != null) {
-            node.setDifferenceOfLeftAndRight((calculateDifferences(node.getLeft()) - calculateDifferences(node.getRight())));
+            node.setDifferenceOfLeftAndRight(node.getLeft().getValue() - node.getRight().getValue());
+            return (calculateDifferences(node.getLeft()) - calculateDifferences(node.getRight()));
         } else {
             node.setDifferenceOfLeftAndRight(0);
         }
