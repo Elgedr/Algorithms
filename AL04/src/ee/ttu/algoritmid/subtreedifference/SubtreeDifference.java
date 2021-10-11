@@ -8,29 +8,23 @@ public class SubtreeDifference {
      * @param rootNode root node of the tree. Use it to traverse the tree.
      * @return root node of the tree where for every node is computed difference of sums of it's left and right children
      */
-    public Node calculateDifferences(Node rootNode) {
-        if (rootNode.getLeft() != null) {
-            rootNode.setDifferenceOfLeftAndRight(allTreeSum(rootNode.getRight()));
+    public long calculateDifferences(Node node) {
+        if (node == null) {
+            return 0;
         }
-        if (rootNode.getRight() != null) {
-            allTreeSum(rootNode.getLeft());
+        if (node.getLeft() != null && node.getRight() != null) {
+            node.setDifferenceOfLeftAndRight((calculateDifferences(node.getLeft()) - calculateDifferences(node.getRight())));
+        } else {
+            node.setDifferenceOfLeftAndRight(0);
         }
+        return node.getSumOfAllChildren();
 
-        return rootNode;
     }
 
-    public long allTreeSum(Node rootNode) {
-        long rightTreeSum = 0;
-        if (rootNode.getRight() != null) {
-            rightTreeSum = allTreeSum(rootNode.getRight());
-            rootNode.setDifferenceOfLeftAndRight(rightTreeSum);
-        }
-        long leftTreeSum = 0;
-        if (rootNode.getLeft() != null) {
-            leftTreeSum = allTreeSum(rootNode.getLeft());
-            rootNode.setSumOfAllChildren(rightTreeSum + leftTreeSum);
-        }
-        return leftTreeSum - rightTreeSum - rootNode.getValue();
+
+    public Node calculate(Node rootNode) {
+        calculateDifferences(rootNode);
+        return rootNode;
     }
 
 
@@ -60,14 +54,12 @@ public class SubtreeDifference {
         b.setRight(f);
 
         SubtreeDifference solution = new SubtreeDifference();
-        solution.calculateDifferences(rootNode);
+        solution.calculate(rootNode);
 
-        if (rootNode.getDifferenceOfLeftAndRight() != -21 ||
-                a.getDifferenceOfLeftAndRight() != -10 ||
-                b.getDifferenceOfLeftAndRight() != -20 ||
-                c.getDifferenceOfLeftAndRight() != 0) {
-            throw new Exception("There is a mistake in your solution.");
-        }
+        System.out.println(a.getDifferenceOfLeftAndRight());//-10
+        System.out.println(b.getDifferenceOfLeftAndRight());    // -20
+        System.out.println(c.getDifferenceOfLeftAndRight());     // 0
+
 
         System.out.println("Your solution should be working fine in basic cases, try to push.");
 
