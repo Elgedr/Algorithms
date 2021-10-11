@@ -11,13 +11,15 @@ public class SubtreeDifference {
         if (node == null) {
             return 0;
         }
+
         if (node.getLeft() != null && node.getRight() != null) {
+//            node.setSumOfAllChildren();
             node.setDifferenceOfLeftAndRight(node.getLeft().getValue() - node.getRight().getValue());
             return (calculateDifferences(node.getLeft()) - calculateDifferences(node.getRight()));
         } else {
             node.setDifferenceOfLeftAndRight(0);
         }
-        return node.getSumOfAllChildren();
+        return node.getDifferenceOfLeftAndRight();
 
     }
 
