@@ -55,7 +55,7 @@ public class SubtreeDifference {
 
         SubtreeDifference solution = new SubtreeDifference();
         solution.calculate(rootNode);
-
+        System.out.println(rootNode.getDifferenceOfLeftAndRight());
         System.out.println(a.getDifferenceOfLeftAndRight());//-10
         System.out.println(b.getDifferenceOfLeftAndRight());    // -20
         System.out.println(c.getDifferenceOfLeftAndRight());     // 0
