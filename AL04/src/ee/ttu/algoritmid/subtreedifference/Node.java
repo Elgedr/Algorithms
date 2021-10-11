@@ -1,8 +1,5 @@
 package ee.ttu.algoritmid.subtreedifference;
 
-/**
- * Please don't change this class, it is only for your reference (it will be overridden by the tester anyways)
- */
 public class Node {
 
     private Node left = null;

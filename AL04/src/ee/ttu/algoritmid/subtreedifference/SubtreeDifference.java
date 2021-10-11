@@ -1,17 +1,38 @@
 package ee.ttu.algoritmid.subtreedifference;
+
 public class SubtreeDifference {
 
     /**
      * Calculate difference between sum of all left children and sum of all right children for every node
+     *
      * @param rootNode root node of the tree. Use it to traverse the tree.
      * @return root node of the tree where for every node is computed difference of sums of it's left and right children
      */
     public Node calculateDifferences(Node rootNode) {
-
-        // TODO: your logic goes here
+        if (rootNode.getLeft() != null) {
+            rootNode.setDifferenceOfLeftAndRight(allTreeSum(rootNode.getRight()));
+        }
+        if (rootNode.getRight() != null) {
+            allTreeSum(rootNode.getLeft());
+        }
 
         return rootNode;
     }
+
+    public long allTreeSum(Node rootNode) {
+        long rightTreeSum = 0;
+        if (rootNode.getRight() != null) {
+            rightTreeSum = allTreeSum(rootNode.getRight());
+            rootNode.setDifferenceOfLeftAndRight(rightTreeSum);
+        }
+        long leftTreeSum = 0;
+        if (rootNode.getLeft() != null) {
+            leftTreeSum = allTreeSum(rootNode.getLeft());
+            rootNode.setSumOfAllChildren(rightTreeSum + leftTreeSum);
+        }
+        return leftTreeSum - rightTreeSum - rootNode.getValue();
+    }
+
 
     public static void main(String[] args) throws Exception {
         /**
