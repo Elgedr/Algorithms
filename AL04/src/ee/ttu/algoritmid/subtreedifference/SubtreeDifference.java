@@ -13,13 +13,24 @@ public class SubtreeDifference {
             long rightsum = calculateDifferences(node.getRight()).getSumOfAllChildren();
             node.setSumOfAllChildren(node.getValue() + leftsum + rightsum);
             node.setDifferenceOfLeftAndRight(leftsum - rightsum);
+        } else if (node.getLeft() == null && node.getRight() != null) {
+            long leftsum = 0;
+            long rightsum = calculateDifferences(node.getRight()).getSumOfAllChildren();
+            node.setSumOfAllChildren(node.getValue() + leftsum + rightsum);
+            node.setDifferenceOfLeftAndRight(leftsum - rightsum);
+
+        } else if (node.getRight() == null && node.getLeft() != null) {
+            long leftsum = calculateDifferences(node.getLeft()).getSumOfAllChildren();
+            long rightsum = 0;
+            node.setSumOfAllChildren(node.getValue() + leftsum + rightsum);
+            node.setDifferenceOfLeftAndRight(leftsum - rightsum);
         } else {
             node.setDifferenceOfLeftAndRight(0);
             node.setSumOfAllChildren(node.getValue());
-        } return node;
+        }
+        return node;
 
     }
-
 
 
     public static void main(String[] args) throws Exception {
