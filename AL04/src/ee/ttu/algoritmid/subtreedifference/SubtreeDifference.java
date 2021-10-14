@@ -7,10 +7,10 @@ public class SubtreeDifference {
      *
      * @return root node of the tree where for every node is computed difference of sums of it's left and right children
      */
-    public Node calculate(Node node) {
+    public Node calculateDifferences(Node node) {
         if (node.getLeft() != null && node.getRight() != null) {
-            long leftsum = calculate(node.getLeft()).getSumOfAllChildren();
-            long rightsum = calculate(node.getRight()).getSumOfAllChildren();
+            long leftsum = calculateDifferences(node.getLeft()).getSumOfAllChildren();
+            long rightsum = calculateDifferences(node.getRight()).getSumOfAllChildren();
             node.setSumOfAllChildren(node.getValue() + leftsum + rightsum);
             node.setDifferenceOfLeftAndRight(leftsum - rightsum);
         } else {
@@ -48,7 +48,7 @@ public class SubtreeDifference {
         b.setRight(f);
 
         SubtreeDifference solution = new SubtreeDifference();
-        solution.calculate(rootNode);
+        solution.calculateDifferences(rootNode);
         System.out.println(rootNode.getDifferenceOfLeftAndRight()); //- 21
         System.out.println(a.getDifferenceOfLeftAndRight());//-10
         System.out.println(b.getDifferenceOfLeftAndRight());    // -20
