@@ -19,6 +19,7 @@ public class GuessingGame {
     public String play(Fruit[] fruitArray) {
         List<Fruit> fruits = List.of(fruitArray).stream().sorted(Comparator.comparing(Fruit::getWeight)).collect(Collectors.toList());
         int middle = (fruits.size() - 1) / 2;
+        System.out.println(fruits);
         String answer = oracle.isIt((Fruit) fruits.get(middle));
         while (!answer.equals("correct!")) {
             if (answer.equals("lighter")) {
