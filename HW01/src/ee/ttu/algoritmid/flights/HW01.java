@@ -18,7 +18,7 @@ public class HW01 implements FlightCrewRegistrationSystem {
      */
     @Override
     public FlightCrew registerToFlight(FlightCrewMember participant) throws IllegalArgumentException {
-        if (participant == null || participant.getName().isEmpty() || participant.getName() == null || participant.getWorkExperience() <= 0) {
+        if (participant == null || participant.getName() == null || participant.getWorkExperience() <= 0) {
             throw new IllegalArgumentException();
         } else {
             currentCrew = null;
