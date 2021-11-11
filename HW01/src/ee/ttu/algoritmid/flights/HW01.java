@@ -10,7 +10,7 @@ public class HW01 implements FlightCrewRegistrationSystem {
     Crew currentCrew;
 
     /**
-     * Register an arriving new crew member to a flight (try to find them a team from a queue).
+     * Register an arrivng new crew member to a flight (try to find them a team from a queue).
      *
      * @param participant
      * @return
