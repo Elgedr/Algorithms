@@ -1,44 +1,51 @@
 package ee.ttu.algoritmid.interestingstamps;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class InterestingStamps {
-    public static List<Integer> findStamps(int a, List<Integer> stampOptions) throws IllegalArgumentException {
-        if (stampOptions.size() == 0 || a < 0) {
+
+    public static List<Integer> findStamps(int sum, List<Integer> stampOptions) throws IllegalArgumentException {
+        if (stampOptions == null || stampOptions.isEmpty()) {
             throw new IllegalArgumentException();
-        } else if (a == 0) {
+        } else if (sum <= 0) {
             return new ArrayList<>();
         } else {
-            a = a + 1;
-            Integer[] lastMarks = new Integer[a + 1];
-            Integer[] optimalMarks = new Integer[a + 1];
-            lastMarks[0] = a;
-            optimalMarks[0] = a;
-            for (int i = 1; i <= a; i++) {
-                optimalMarks[i] = Integer.MAX_VALUE;
-                for (int j = 0; j < stampOptions.size(); j++) {
-                    if (i - stampOptions.get(j) < 0) {
-
-                    } else if (optimalMarks[i - stampOptions.get(j)] == null) {
-                        optimalMarks[i - stampOptions.get(j)] = 0;
-                    } else if ((i >= stampOptions.get(j)) && (optimalMarks[i] > (optimalMarks[i - stampOptions.get(j)]) + 1)) {
-                        optimalMarks[i] = (optimalMarks[i - stampOptions.get(j)]) + 1;
-                        lastMarks[i] = stampOptions.get(j);
+            int[] marksSums = new int[sum + 1];
+            marksSums[0] = 0;
+            for (int i = 1; i <= sum; i++) {
+                marksSums[i] = Integer.MAX_VALUE;
+            }
+            HashMap<Integer, List<Integer>> marksSumsMap = new HashMap<>();
+            for (int index = 1; index <= sum; index++) {
+                List<Integer> marksOpt = new ArrayList<>();
+                for (int j = 0; j < stampOptions.size() - 1; j++) {
+                    int currentStampOption = stampOptions.get(j);
+                    if (currentStampOption <= index) {
+                        int subSum = marksSums[index - currentStampOption];
+                        if (subSum != Integer.MAX_VALUE && subSum + 1 < marksSums[index]) {
+                            marksOpt.add(currentStampOption);
+                            marksSums[index] = subSum + 1;
+                            List<Integer> existSolution = marksSumsMap.get(index - currentStampOption);
+                            if (existSolution != null) marksOpt.addAll(existSolution);
+                            marksSumsMap.put(index, marksOpt);
+                            marksOpt = new ArrayList<>();
+                        }
                     }
                 }
             }
-            return getMarksList(a - 1, lastMarks);
+            return marksSumsMap.get(sum);
         }
+
     }
 
-    public static List<Integer> getMarksList(int listSize, Integer[] V) {
-        List<Integer> integerList = new ArrayList<>();
-        while (listSize > 0) {
-            integerList.add(V[listSize]);
-            listSize = listSize - V[listSize];
-        }
-        return integerList;
+    public static void main(String[] args) {
+        List<Integer> result = InterestingStamps.findStamps(100, Arrays.asList(1, 10, 24, 30, 33, 36));
+        System.out.println(result);
     }
-
 }
+
+
+
