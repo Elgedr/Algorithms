@@ -5,7 +5,7 @@ import java.util.List;
 
 public class InterestingStamps {
     public static List<Integer> findStamps(int a, List<Integer> stampOptions) throws IllegalArgumentException {
-        if (stampOptions == null || stampOptions.isEmpty() || a < 0) {
+        if (stampOptions.size() == 0 || a < 0) {
             throw new IllegalArgumentException();
         } else if (a == 0) {
             return new ArrayList<>();
