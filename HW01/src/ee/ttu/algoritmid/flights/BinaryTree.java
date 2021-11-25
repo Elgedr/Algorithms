@@ -35,7 +35,7 @@ public class BinaryTree {
         if (member.getWorkExperience() <= current.member.getWorkExperience()) {
             current.left = addAChildNode(current.left, member);
         } else current.right = addAChildNode(current.right, member);
-        return current;
+        return rebalance(current);
     }
 
     /**
@@ -85,7 +85,8 @@ public class BinaryTree {
             root.member = findSmallestValue(root.right);
             root.right = deleteChildNode(root.right, root.member);
         }
-        return root;
+
+        return rebalance(root);
     }
 
     /**
@@ -192,5 +193,58 @@ public class BinaryTree {
             }
         }
         return member;
+    }
+
+    private Node rebalance(Node z) {
+        updateHeight(z);
+        int balance = getBalance(z);
+        if (balance > 1) {
+            if (height(z.right.right) > height(z.right.left)) {
+                z = rotateLeft(z);
+            } else {
+                z.right = rotateRight(z.right);
+                z = rotateLeft(z);
+            }
+        } else if (balance < -1) {
+            if (height(z.left.left) > height(z.left.right)) {
+                z = rotateRight(z);
+            } else {
+                z.left = rotateLeft(z.left);
+                z = rotateRight(z);
+            }
+        }
+        return z;
+    }
+
+    private Node rotateRight(Node y) {
+        Node x = y.left;
+        Node z = x.right;
+        x.right = y;
+        y.left = z;
+        updateHeight(y);
+        updateHeight(x);
+        return x;
+    }
+
+    private Node rotateLeft(Node y) {
+        Node x = y.right;
+        Node z = x.left;
+        x.left = y;
+        y.right = z;
+        updateHeight(y);
+        updateHeight(x);
+        return x;
+    }
+
+    private void updateHeight(Node n) {
+        n.height = 1 + Math.max(height(n.left), height(n.right));
+    }
+
+    private int height(Node n) {
+        return n == null ? -1 : n.height;
+    }
+
+    public int getBalance(Node n) {
+        return (n == null) ? 0 : height(n.right) - height(n.left);
     }
 }
