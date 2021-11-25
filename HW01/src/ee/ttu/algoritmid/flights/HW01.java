@@ -4,25 +4,21 @@ import java.util.Comparator;
 import java.util.List;
 
 public class HW01 implements FlightCrewRegistrationSystem {
-    BinaryTree pilotTree = new BinaryTree();
-    BinaryTree copilotTree = new BinaryTree();
-    BinaryTree stuardTree = new BinaryTree();
-    Crew currentCrew;
+    private BinaryTree pilotTree = new BinaryTree();
+    private BinaryTree copilotTree = new BinaryTree();
+    private BinaryTree stuardTree = new BinaryTree();
+    private Crew currentCrew;
 
     /**
-     * Register an arrivng new crew member to a flight (try to find them a team from a queue).
+     * Register an arriving new crew member to a flight (try to find them a team from a queue).
      *
-     * @param participant
-     * @return
-     * @throws IllegalArgumentException
+     * @param participant participant
+     * @return crew
+     * @throws IllegalArgumentException exception
      */
     @Override
     public FlightCrew registerToFlight(FlightCrewMember participant) throws IllegalArgumentException {
-        if (participant == null
-                || participant.getWorkExperience() < 0
-                || participant.getName() == null
-                || participant.getName().length() == 0
-                || participant.getRole() == null) {
+        if (participant == null || participant.getName() == null || participant.getRole() == null || participant.getWorkExperience() < 0 || participant.getName().isEmpty()) {
             throw new IllegalArgumentException();
         } else {
             currentCrew = null;
@@ -64,57 +60,76 @@ public class HW01 implements FlightCrewRegistrationSystem {
     public boolean findTeam(FlightCrewMember member) {
         currentCrew = new Crew();
         if (member.getRole().equals(FlightCrewMember.Role.FLIGHT_ATTENDANT)) {
-            currentCrew.setStuart(member);
-            System.out.println("Stuart experience: " + member.getWorkExperience());
-            FlightCrewMember copilot = this.copilotTree.findValueMoreOrEqualN(member.getWorkExperience() + 3);
-            FlightCrewMember pilot = null;
-            if (copilot != null) {
-                System.out.println("Copilot experience: " + copilot.getWorkExperience());
-                double minPilotExp = copilot.getWorkExperience() + 5;
-                double maxPilotExp = copilot.getWorkExperience() + 10;
-                pilot = this.pilotTree.findValueInRange(minPilotExp, maxPilotExp);
-            }
-            if (pilot != null) {
-                System.out.println("Pilot experience: " + pilot.getWorkExperience());
-                currentCrew.setPilot(pilot);
-                currentCrew.setCopilot(copilot);
-                return true;
-            }
+            return findTeamForAttendant(member);
         } else if (member.getRole().equals(FlightCrewMember.Role.COPILOT)) {
-            currentCrew.setCopilot(member);
-            System.out.println("Copilot experience: " + member.getWorkExperience());
-            double minPilotExp = member.getWorkExperience() + 5;
-            double maxPilotExp = member.getWorkExperience() + 10;
-            FlightCrewMember pilot = this.pilotTree.findValueInRange(minPilotExp, maxPilotExp);
-            FlightCrewMember stuart = null;
-            if (pilot != null) {
-                stuart = this.stuardTree.findValueLessOrEqualN(member.getWorkExperience() - 3);
-                System.out.println("Pilot experience: " + pilot.getWorkExperience());
-            }
-            if (stuart != null) {
-                System.out.println("Stuart experience: " + stuart.getWorkExperience());
-                currentCrew.setPilot(pilot);
-                currentCrew.setStuart(stuart);
-                return true;
-            }
+            return findTeamForCopilot(member);
         } else {
-            currentCrew.setPilot(member);
-            System.out.println("Pilot experience: " + member.getWorkExperience());
-            double minCopilotExp = member.getWorkExperience() - 10;
-            double maxCopilotExp = member.getWorkExperience() - 5;
-            FlightCrewMember copilot = this.copilotTree.findValueInRange(minCopilotExp, maxCopilotExp);
-            System.out.println(copilot);
-            FlightCrewMember stuart = null;
-            if (copilot != null) {
-                stuart = this.stuardTree.findValueLessOrEqualN(copilot.getWorkExperience() - 3);
-                System.out.println("Copilot experience: " + copilot.getWorkExperience());
-            }
-            if (stuart != null) {
-                currentCrew.setStuart(stuart);
-                currentCrew.setCopilot(copilot);
-                System.out.println("Stuart experience: " + stuart.getWorkExperience());
-                return true;
-            }
+            return findTeamForPilot(member);
+        }
+    }
+
+    /**
+     * Find a suitable team for a new pilot.
+     * @param member pilot
+     * @return true if the team was found
+     */
+    private boolean findTeamForPilot(FlightCrewMember member) {
+        currentCrew.setPilot(member);
+        double minCopilotExp = member.getWorkExperience() - 10;
+        double maxCopilotExp = member.getWorkExperience() - 5;
+        FlightCrewMember copilot = this.copilotTree.findValueInRange(minCopilotExp, maxCopilotExp, true);
+        FlightCrewMember stuart = null;
+        if (copilot != null) {
+            stuart = this.stuardTree.findValueLessOrEqualN(copilot.getWorkExperience() - 3);
+        }
+        if (stuart != null) {
+            currentCrew.setStuart(stuart);
+            currentCrew.setCopilot(copilot);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Find a suitable team for the copilot.
+     * @param member copilot
+     * @return true if a suitable team was found
+     */
+    public boolean findTeamForCopilot(FlightCrewMember member) {
+        currentCrew.setCopilot(member);
+        double minPilotExp = member.getWorkExperience() + 5;
+        double maxPilotExp = member.getWorkExperience() + 10;
+        FlightCrewMember pilot = this.pilotTree.findValueInRange(minPilotExp, maxPilotExp, false);
+        FlightCrewMember stuart = null;
+        if (pilot != null) {
+            stuart = this.stuardTree.findValueLessOrEqualN(member.getWorkExperience() - 3);
+        }
+        if (stuart != null) {
+            currentCrew.setPilot(pilot);
+            currentCrew.setStuart(stuart);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Find a suitable team for atendant.
+     * @param member attendant
+     * @return true if a team was found
+     */
+    public boolean findTeamForAttendant(FlightCrewMember member) {
+        currentCrew.setStuart(member);
+        FlightCrewMember copilot = this.copilotTree.findValueMoreOrEqualN(member.getWorkExperience() + 3);
+        FlightCrewMember pilot = null;
+        if (copilot != null) {
+            double minPilotExp = copilot.getWorkExperience() + 5;
+            double maxPilotExp = copilot.getWorkExperience() + 10;
+            pilot = this.pilotTree.findValueInRange(minPilotExp, maxPilotExp, false);
+        }
+        if (pilot != null) {
+            currentCrew.setPilot(pilot);
+            currentCrew.setCopilot(copilot);
+            return true;
         }
         return false;
     }

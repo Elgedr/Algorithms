@@ -4,9 +4,9 @@ package ee.ttu.algoritmid.flights;
  * A custom crew class implementing a given interface.
  */
 public class Crew implements FlightCrew {
-    FlightCrewMember pilot;
-    FlightCrewMember copilot;
-    FlightCrewMember stuart;
+    private FlightCrewMember pilot;
+    private FlightCrewMember copilot;
+    private FlightCrewMember stuart;
 
     public Crew() {
     }

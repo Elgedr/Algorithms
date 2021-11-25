@@ -7,23 +7,35 @@ import java.util.List;
  * Binary tree class with nodes.
  */
 public class BinaryTree {
-    private int size = 0;
     private Node root;
     private List<FlightCrewMember> members = new ArrayList<>();
 
-    /**
-     * Get the number of all nodes in the tree.
-     * @return how many nodes the tree has
-     */
-    public int getTreeSize() { return size; }
 
     /**
-     * Add a node to the tree (which has a CrewMember as its value).
+     * Add a node to the tree (which has a crew member as its value).
      * @param member value of the node to be added
      */
     public void addMember(FlightCrewMember member) {
+        if (member == null || member.getName().isEmpty() || member.getName() == null ||
+                member.getWorkExperience() < 0 || member.getRole() == null) {
+            throw new IllegalArgumentException();
+        }
         root = addAChildNode(root, member);
-        size += 1;
+    }
+
+    /**
+     * A private recursive method to use for the AddMember method (adding a child node).
+     * @param current parent node
+     * @param member value of the node to be added
+     * @return current parent node
+     */
+    private Node addAChildNode(Node current, FlightCrewMember member) {
+        if (current == null) return new Node(member);
+        if (member == null) return current;
+        if (member.getWorkExperience() <= current.member.getWorkExperience()) {
+            current.left = addAChildNode(current.left, member);
+        } else current.right = addAChildNode(current.right, member);
+        return current;
     }
 
     /**
@@ -42,51 +54,52 @@ public class BinaryTree {
      */
     private void getAllTreeValues(Node node) {
         if (node == null) return;
-        this.members.add(node.member);
         getAllTreeValues(node.left);
+        this.members.add(node.member);
         getAllTreeValues(node.right);
-    }
-
-    /**
-     * A private recursive method to use for the AddMember method (adding a child node).
-     * @param current parent node
-     * @param member value of the node to be added
-     * @return current parent node
-     */
-    private Node addAChildNode(Node current, FlightCrewMember member) {
-        if (current == null) return new Node(member);
-        if (member.getWorkExperience() <= current.member.getWorkExperience()) {
-            current.left = addAChildNode(current.left, member);
-        } else current.right = addAChildNode(current.right, member);
-        return current;
     }
 
     /**
      * Delete a node with the given member value.
      * @param member to delete from the tree
-     * @return boolean (succesfully deleted or not)
      */
-    public boolean deleteMember(FlightCrewMember member) {
-        return deleteChildNode(root, member);
+    public void deleteMember(FlightCrewMember member) { root = deleteChildNode(root, member); }
+
+    /**
+     * Delete a member using recursive function.
+     * @param root current node
+     * @param member to delete
+     * @return root
+     */
+    private Node deleteChildNode(Node root, FlightCrewMember member) {
+        if (root == null) return null;
+        if (member.getWorkExperience() < root.member.getWorkExperience())
+            root.left = deleteChildNode(root.left, member);
+        else if (member.getWorkExperience() > root.member.getWorkExperience())
+            root.right = deleteChildNode(root.right, member);
+        else {
+            if (root.left == null)
+                return root.right;
+            else if (root.right == null)
+                return root.left;
+            root.member = findSmallestValue(root.right);
+            root.right = deleteChildNode(root.right, root.member);
+        }
+        return root;
     }
 
     /**
-     * A private recursive method to use in the deleteMember function.
-     * @param current parent node
-     * @param member to delete from the tree
-     * @return boolean (successfully deleted or not)
+     * Find the member with a smallest value (down the tree to the left)
+     * @param root node
+     * @return member
      */
-    private boolean deleteChildNode(Node current, FlightCrewMember member) {
-        if (current == null) return false;
-        if (current.member == member) {
-            current.member = null;
-            size -= 1;
-            return true;
+    private FlightCrewMember findSmallestValue(Node root) {
+        FlightCrewMember minval = root.member;
+        while (root.left != null) {
+            minval = root.left.member;
+            root = root.left;
         }
-        if (member.getWorkExperience() <= current.member.getWorkExperience()) {
-            deleteChildNode(current.left, member);
-        } else deleteChildNode(current.right, member);
-        return false;
+        return minval;
     }
 
     /**
@@ -95,7 +108,7 @@ public class BinaryTree {
      * @return node
      */
     public FlightCrewMember findValueMoreOrEqualN(double n) {
-        return findNodeRecursive(root, n, true);
+        return findNodeRecursive(root, n, true, null);
     }
 
     /**
@@ -104,7 +117,7 @@ public class BinaryTree {
      * @return node
      */
     public FlightCrewMember findValueLessOrEqualN(double n) {
-        return findNodeRecursive(root, n, false);
+        return findNodeRecursive(root, n, false, null);
     }
 
     /**
@@ -114,10 +127,8 @@ public class BinaryTree {
      * @param k max value
      * @return crew member
      */
-    public FlightCrewMember findValueInRange(double n, double k) {
-        FlightCrewMember member = findNodeRecursiveInRange(root, n, k);
-        System.out.println(member);
-        return member;
+    public FlightCrewMember findValueInRange(double n, double k, boolean closerToK) {
+        return findNodeRecursiveInRange(root, k, n, closerToK, null);
     }
 
     /**
@@ -126,37 +137,60 @@ public class BinaryTree {
      * @param current node
      * @param exp value
      * @param findNodeWithMoreExp true if more, false if less
-     * @return flight crew member or null
+     * @return flight crew member or null. sss
      */
-    private FlightCrewMember findNodeRecursive(Node current, double exp, boolean findNodeWithMoreExp) {
-        if (current == null) return null;
+    private FlightCrewMember findNodeRecursive(Node current, double exp, boolean findNodeWithMoreExp,
+                                               FlightCrewMember member) {
+        if (current == null) return member;
         double memberExp = current.member.getWorkExperience();
         if (exp == memberExp) return current.member;
         if (findNodeWithMoreExp) {
-            if (memberExp > exp) {
-                return current.member;
-            } else return findNodeRecursive(current.right, exp, true);
+            if (memberExp < exp && current.right != null) {
+                return findNodeRecursive(current.right, exp, true, member);
+            } else if (memberExp >= exp) {
+                if (member == null || member.getWorkExperience() - memberExp > 0) member = current.member;
+                if (current.left != null) return findNodeRecursive(current.left, exp, true, member);
+                return member;
+            }
         } else {
-            if (memberExp < exp) {
-                return current.member;
-            } return findNodeRecursive(current.left, exp, false);
+            if (memberExp > exp && current.left != null) {
+                return findNodeRecursive(current.left, exp, false, member);
+            } else if (memberExp <= exp) {
+                if (member == null || member.getWorkExperience() - memberExp < 0) member = current.member;
+                if (current.right != null) return findNodeRecursive(current.right, exp, false, member);
+                return member;
+            }
         }
+        return member;
     }
 
-    /**
-     * Find a node in a given range [minExp, maxExp].
-     * @param current parent node
-     * @param minExp the member can have
-     * @param maxExp the member can have
-     * @return node
-     */
-    private FlightCrewMember findNodeRecursiveInRange(Node current, double minExp, double maxExp) {
-        if (current == null) return null;
+    private FlightCrewMember findNodeRecursiveInRange(Node current, double maxExp, double minExp, boolean closerToMax,
+                                                      FlightCrewMember member) {
+        if (current == null) return member;
         double memberExp = current.member.getWorkExperience();
-        if (minExp == memberExp || maxExp == memberExp) return current.member;
-        if (memberExp > minExp && memberExp < maxExp) { return current.member; }
-        if (memberExp > minExp) {
-            return findNodeRecursiveInRange(current.left, minExp, maxExp);
-        } else return findNodeRecursiveInRange(current.right, minExp, maxExp);
+        if (closerToMax) {
+            if (memberExp == maxExp) return current.member;
+            if (memberExp < minExp && current.right != null) {
+                return findNodeRecursiveInRange(current.right, maxExp, minExp, true, member);
+            } else if (current.left != null && memberExp > maxExp) {
+                return findNodeRecursiveInRange(current.left, maxExp, minExp, true, member);
+            } else if (memberExp <= maxExp && memberExp >= minExp) {
+                if (member == null || member.getWorkExperience() - memberExp < 0) member = current.member;
+                if (current.right != null) return findNodeRecursiveInRange(current.right, maxExp, minExp, true, member);
+                return member;
+            }
+        } else {
+            if (memberExp == minExp) return current.member;
+            if (memberExp < minExp && current.right != null) {
+                return findNodeRecursiveInRange(current.right, maxExp, minExp, false, member);
+            } else if (current.left != null && memberExp > maxExp) {
+                return findNodeRecursiveInRange(current.left, maxExp, minExp, false, member);
+            } else if (memberExp <= maxExp && memberExp >= minExp) {
+                if (member == null || member.getWorkExperience() - memberExp > 0) member = current.member;
+                if (current.left != null) return findNodeRecursiveInRange(current.left, maxExp, minExp, false, member);
+                return member;
+            }
+        }
+        return member;
     }
 }
