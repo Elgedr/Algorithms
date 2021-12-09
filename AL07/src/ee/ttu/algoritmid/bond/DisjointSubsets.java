@@ -23,15 +23,15 @@ public class DisjointSubsets {
         if (element1 == null || element1.isEmpty() || element2 == null || element2.isEmpty() || persons.get(element1) == null || persons.get(element2) == null) {
             throw new IllegalArgumentException();
         }
-        String root1 = find(element1);
-        String root2 = find(element2);
-        if (hash2.get(root1) < hash2.get(root2)) {
-            persons.put(root1, root2);
-        } else if (hash2.get(root2) < hash2.get(root1)) {
-            persons.put(root2, root1);
+        String firstPerson = find(element1);
+        String secondPerson = find(element2);
+        if (hash2.get(firstPerson) < hash2.get(secondPerson)) {
+            persons.put(firstPerson, secondPerson);
+        } else if (hash2.get(secondPerson) < hash2.get(firstPerson)) {
+            persons.put(secondPerson, firstPerson);
         } else {
-            persons.put(root2, root1);
-            hash2.put(root1, hash2.get(root1) + 1);
+            persons.put(secondPerson, firstPerson);
+            hash2.put(firstPerson, hash2.get(firstPerson) + 1);
         }
 
 
