@@ -17,24 +17,29 @@ public class AL07 {
     }
 
     public void talkedToEachOther(String name1, String name2) {
-        // TODO
+        disjointSubsets.union(name1, name2);
     }
 
     public void addPerson(String name) {
-        // TODO
+        disjointSubsets.addSubset(name);
     }
 
     public void friendly(String name) {
-        // TODO
+
     }
 
     public void unfriendly(String name) {
-        // TODO
+
     }
 
     public Network memberOfNetwork(String name) {
-        // TODO
-        return null;
+        String person = disjointSubsets.find(name);
+        if (person != null) {
+            return Network.FRIENDLY;
+        } else {
+            return Network.UNFRIENDLY;
+        }
+
     }
 
 }
